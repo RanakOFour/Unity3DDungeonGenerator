@@ -1,0 +1,52 @@
+<mxfile host="65bd71144e">
+    <diagram id="FGTOHPj3YCh0T4GT6jC4" name="Page-1">
+        <mxGraphModel dx="1069" dy="576" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="28" value="Dungeon" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="255" y="299" width="358" height="228" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="- 3D grid containing Dungeon Parts" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=default;" vertex="1" parent="28">
+                    <mxGeometry x="218" y="28" width="124" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Attributes" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="28">
+                    <mxGeometry x="4" y="28" width="200" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="- Size : v3&lt;div&gt;- Parts : prefabs/DungeonParts&lt;/div&gt;&lt;div&gt;-&amp;nbsp;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="30">
+                    <mxGeometry y="24" width="199" height="176" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" style="edgeStyle=none;html=1;endArrow=diamondThin;endFill=0;endSize=25;" edge="1" parent="1" source="34" target="38">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="Dungeon" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="283.5" y="579" width="248" height="109" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="&lt;div&gt;- voxelSize : v3&lt;/div&gt;- dungeonSizeInVoxels : v3&lt;div&gt;- Parts : List&amp;lt;DungeonParts/GameObject&amp;gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="34">
+                    <mxGeometry y="26" width="248" height="49" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="34">
+                    <mxGeometry y="75" width="248" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="+ Generate() : void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="34">
+                    <mxGeometry y="83" width="248" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="DungeonPart" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="589" y="597" width="160" height="68" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="+ m_Prefab : GameObject&lt;div&gt;+ m_MaxIterations : int&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="38">
+                    <mxGeometry y="26" width="160" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="38">
+                    <mxGeometry y="60" width="160" height="8" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="What is data is required by the geometry?&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;- Entrances/Exit locations&lt;/div&gt;&lt;div&gt;- Orientation&lt;/div&gt;&lt;div&gt;- VoxelLocation of entrance/exit&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="300.5" y="716" width="214" height="87" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="CorridorPrefab" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="857" y="584" width="200" height="200" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
