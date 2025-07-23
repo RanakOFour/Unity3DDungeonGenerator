@@ -44,7 +44,13 @@
                     <mxGeometry x="300.5" y="716" width="214" height="87" as="geometry"/>
                 </mxCell>
                 <mxCell id="44" value="CorridorPrefab" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="857" y="584" width="200" height="200" as="geometry"/>
+                    <mxGeometry x="857" y="584" width="598" height="380" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="Hierarchy" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="44">
+                    <mxGeometry y="24" width="200" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="Text" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;" vertex="1" parent="45">
+                    <mxGeometry y="24" width="200" height="176" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
