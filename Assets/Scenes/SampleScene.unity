@@ -171,6 +171,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_useVoxels
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_VoxelSize.x
       value: 1
       objectReference: {fileID: 0}
@@ -181,6 +185,30 @@ PrefabInstance:
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_VoxelSize.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_StartingRoom
+      value: 
+      objectReference: {fileID: 4104687076822010866, guid: 9ff584237873ebc7dbc45c9694675723, type: 3}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_DungeonParts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_DungeonParts.Array.data[0].m_Prefab
+      value: 
+      objectReference: {fileID: 6813203716771385067, guid: 61e400efac67e98359364f8d11f56241, type: 3}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_DungeonParts.Array.data[1].m_Prefab
+      value: 
+      objectReference: {fileID: 6813203716771385067, guid: 61e400efac67e98359364f8d11f56241, type: 3}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_DungeonParts.Array.data[0].m_MaxIterations
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_DungeonParts.Array.data[1].m_MaxIterations
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7116413036192293923, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_Name

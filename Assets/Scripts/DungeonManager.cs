@@ -1,11 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityDungeonGenerator
 {
+    [System.Serializable]
     struct DungeonPart
     {
+        // The prefab to be used for this dungeon part
         [SerializeField]
         public GameObject m_Prefab;
 
@@ -24,6 +25,9 @@ namespace UnityDungeonGenerator
         // Size of the whole dungeon space in voxels
         [SerializeField]
         private Vector3 m_DungeonSize;
+
+        [SerializeField]
+        public GameObject m_StartingRoom;
 
         // Unique prefabs that will make up the dungeon
         [SerializeField]
