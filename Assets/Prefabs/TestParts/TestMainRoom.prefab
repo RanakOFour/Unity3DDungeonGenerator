@@ -116,7 +116,7 @@ MonoBehaviour:
   m_xLock: 0
   m_yLock: 0
   m_zLock: 0
-  m_Size: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3, y: 1, z: 3}
   m_ConnectionGOs:
   - {fileID: 91404679533437094}
   - {fileID: 5012941124227434962}

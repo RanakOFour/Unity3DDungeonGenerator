@@ -34,5 +34,29 @@ namespace UnityDungeonGenerator
                 // Will remember how to populate later
             }
         }
+
+        public List<Vector3> GetSpace(Vector3 _center)
+        {
+            List<Vector3> l_toReturn = new List<Vector3>();
+            float l_voxelCount = m_Size.x * m_Size.y * m_Size.z;
+
+            while (l_toReturn.Count < l_voxelCount)
+            {
+                
+            }
+
+                // for (int x = 0; x <= m_Size.x; x++)
+                // {
+                //     for (int y = 0; y <= m_Size.y; y++)
+                //     {
+                //         for (int z = 0; z <= m_Size.z; z++)
+                //         {
+                //             l_toReturn.Add(new Vector3(x, y, z) + _center);
+                //         }
+                //     }
+                // }
+
+                return l_toReturn;
+        }
     }
 }
