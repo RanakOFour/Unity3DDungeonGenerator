@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UnityDungeonGenerator
@@ -13,6 +15,13 @@ namespace UnityDungeonGenerator
         // Max count of each corresponding part. -1 for unlimited
         [SerializeField]
         public int m_MaxIterations;
+
+        public int m_Iterations;
+
+        public void Increment()
+        {
+            m_Iterations += 1;
+        }
     }
 
     // Holds static data about the dungeon
@@ -48,37 +57,125 @@ namespace UnityDungeonGenerator
                 return;
             }
 
-            GameObject l_instantiatedPiece = GameObject.Instantiate(m_StartingRoom);
-            l_partQueue.Enqueue(l_instantiatedPiece);
-            FillMap(m_StartingRoom);
 
-            while (l_partQueue.Count > 0)
+            Debug.Log("Dungeon Generator: Starting generation");
+
+            GameObject l_instantiatedPiece = GameObject.Instantiate(m_StartingRoom, gameObject.transform);
+            l_partQueue.Enqueue(l_instantiatedPiece);
+            FillMap(ref m_StartingRoom);
+
+            while (l_partQueue.Count > 0 && m_DungeonParts.Count > 0)
             {
+                Debug.Log("Dungeon Generator: Getting piece to connect");
                 GameObject l_currentPiece = l_partQueue.Dequeue();
                 ConnectionPoint[] l_connectionPoints = l_currentPiece.GetComponentsInChildren<ConnectionPoint>();
 
                 Debug.Log("Dungeon Generator: Points on piece detected: " + l_connectionPoints.Length);
-                return;
+
+                foreach (ConnectionPoint l_currentPoint in l_connectionPoints)
+                {
+                    if (l_currentPoint.Connected()) { continue; }
+
+                    bool l_partFits = false;
+                    int l_newPieceIndex = 0;
+
+                    // Cycle through parts randomly until one that can be placed is found
+                    while (!l_partFits)
+                    {
+                        Debug.Log("Dungeon Generator: Finding new piece to connect");
+
+                        // Select random piece to place
+                        l_newPieceIndex = UnityEngine.Random.Range(0, m_DungeonParts.Count - 1);
+                        GameObject l_newPiece = GameObject.Instantiate(m_DungeonParts[l_newPieceIndex].m_Prefab);
+                        ConnectionPoint l_newPoint = l_newPiece.GetComponentInChildren<ConnectionPoint>();
+
+                        l_newPiece.transform.rotation = Quaternion.AngleAxis((l_currentPiece.transform.eulerAngles.y - l_currentPoint.transform.eulerAngles.y) + 180f, Vector3.up);
+                        Vector3 l_translate = l_currentPoint.transform.position - l_newPoint.transform.position;
+                        l_newPiece.transform.position += l_translate;
+                        // newRoom.transform.rotation = Quaternion.AngleAxis((lastRoomDoor.transform.eulerAngles.y - newRoomDoor.transform.eulerAngles.y) + 180f, Vector3.up);
+                        //     Vector3 translate = lastRoomDoor.transform.position - newRoomDoor.transform.position;
+                        //     newRoom.transform.position += translate;
+
+                        if (DoesObjectFit(ref l_newPiece))
+                        {
+                            l_partFits = true;
+                            FillMap(ref l_newPiece);
+                            l_newPoint.Connect();
+                            l_currentPoint.Connect();
+                            l_partQueue.Enqueue(l_newPiece);
+                        }
+                        else
+                        {
+                            GameObject.Destroy(l_newPiece);
+                        }
+                    }
+
+                    // Increment number of instances and remove from list if the maximum number if instances is reached
+                    m_DungeonParts[l_newPieceIndex].Increment();
+                    if (m_DungeonParts[l_newPieceIndex].m_Iterations == m_DungeonParts[l_newPieceIndex].m_MaxIterations)
+                    {
+                        m_DungeonParts.Remove(m_DungeonParts[l_newPieceIndex]);
+                    }
+                }
             }
         }
 
-        private void FillMap(GameObject _dungeonPart)
+        private void FillMap(ref GameObject _dungeonPart)
         {
             PartPrefab l_prefab = _dungeonPart.GetComponent<PartPrefab>();
 
             // Voxel position of prefabs center
-            Vector3 l_center = new Vector3(
+            Vector3 l_shapeCenter = new Vector3(
                                            _dungeonPart.transform.position.x / m_DungeonSize.x,
                                            _dungeonPart.transform.position.y / m_DungeonSize.y,
                                            _dungeonPart.transform.position.z / m_DungeonSize.z
                                            );
 
-            List<Vector3> l_prefabSpace = l_prefab.GetSpace(l_center);
-            foreach (Vector3 coord in l_prefabSpace)
+            List<Vector3> l_prefabCoords = l_prefab.GetCoordinates(l_shapeCenter);
+            Vector3 l_currentCoord;
+            for (int i = 0; i < l_prefabCoords.Count; i++)
             {
-                m_VoxelMap[(int)coord.x, (int)coord.y, (int)coord.z] = 1;
-                Debug.Log("Dungeon Generator: Position filled: " + coord.x + ", " + coord.y + ", " + coord.z);
+                l_currentCoord = l_prefabCoords[i] + (m_DungeonSize * 0.5f);
+                m_VoxelMap[(int)l_currentCoord.x,
+                           (int)l_currentCoord.y,
+                           (int)l_currentCoord.z] = 1;
+                Debug.Log("Dungeon Generator: Position filled: " + l_currentCoord.x + ", " + l_currentCoord.y + ", " + l_currentCoord.z);
             }
+        }
+
+        private bool DoesObjectFit(ref GameObject _dungeonPart)
+        {
+            PartPrefab l_prefab = _dungeonPart.GetComponent<PartPrefab>();
+            Vector3 l_shapeCenter = new Vector3(
+                                           _dungeonPart.transform.position.x / m_DungeonSize.x,
+                                           _dungeonPart.transform.position.y / m_DungeonSize.y,
+                                           _dungeonPart.transform.position.z / m_DungeonSize.z
+                                           );
+
+            List<Vector3> l_prefabCoords = l_prefab.GetCoordinates(l_shapeCenter);
+            Vector3 l_currentCoord;
+            for (int i = 0; i < l_prefabCoords.Count; i++)
+            {
+                l_currentCoord = l_prefabCoords[i] + (m_DungeonSize * 0.5f);
+                if (Mathf.Abs(l_currentCoord.x) > m_DungeonSize.x ||
+                    Mathf.Abs(l_currentCoord.y) > m_DungeonSize.y ||
+                    Mathf.Abs(l_currentCoord.z) > m_DungeonSize.z)
+                {
+                    Debug.Log("Dungeon Generator: Object does not fit. Error coord: " + l_currentCoord);
+                    return false;
+                }
+
+                if (m_VoxelMap[(int)l_currentCoord.x,
+                           (int)l_currentCoord.y,
+                           (int)l_currentCoord.z] == 1)
+                {
+                    Debug.Log("Dungeon Generator: Object does not fit. Error coord: " + l_currentCoord);
+                    return false;
+                }
+            }
+
+            Debug.Log("Dungeon Generator: Object fits");
+            return true;
         }
     }
 }
