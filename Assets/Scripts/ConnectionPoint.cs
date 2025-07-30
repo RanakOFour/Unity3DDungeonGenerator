@@ -6,6 +6,7 @@ namespace UnityDungeonGenerator
     public class ConnectionPoint : MonoBehaviour
     {
         // If true, the connection has been used
+        [SerializeField]
         private bool m_Connected;
 
         private void Start()
