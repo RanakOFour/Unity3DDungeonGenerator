@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -44,7 +45,14 @@ namespace UnityDungeonGenerator
 
         public void Generate()
         {
-            if (m_Generated) { return; }
+            if (m_Generated) {
+                Debug.Log("DungeonGenerator: dungeon already generated!");
+                return; }
+
+            if(m_StartingRoom == null) {
+                Debug.Log("DungeonGenerator: no starting room set!");
+                return; }
+            
             m_Generated = true;
 
             Debug.Log("Dungeon Generator: Starting generation");
@@ -58,13 +66,6 @@ namespace UnityDungeonGenerator
 
             bool[,,] l_VoxelMap = new bool[(int)m_DungeonSize.x, (int)m_DungeonSize.y, (int)m_DungeonSize.z];
             Queue<GameObject> l_partQueue = new Queue<GameObject>();
-
-            if (m_StartingRoom == null)
-            {
-                Debug.Log("DungeonGenerator: no starting room set!");
-                return;
-            }
-
 
             Debug.Log("Dungeon Generator: Creating starter room");
 
