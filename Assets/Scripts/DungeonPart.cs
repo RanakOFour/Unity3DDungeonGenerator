@@ -15,7 +15,7 @@ namespace UnityDungeonGenerator
 
         private bool m_Dirty;
 
-        public void Start()
+        public void Awake()
         {
             m_Dirty = true;   
         }
@@ -82,7 +82,7 @@ namespace UnityDungeonGenerator
                 message += coord;
             }
 
-            //Debug.Log(message);
+            Debug.Log(message);
 
             return m_Coordinates;
         }

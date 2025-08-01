@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace UnityDungeonGenerator
@@ -43,7 +44,7 @@ namespace UnityDungeonGenerator
 
         public void Generate()
         {
-            if(m_Generated) { return; }
+            if (m_Generated) { return; }
             m_Generated = true;
 
             Debug.Log("Dungeon Generator: Starting generation");
@@ -55,7 +56,7 @@ namespace UnityDungeonGenerator
                 l_IterationCounts.Add(0);
             }
 
-            bool [,,] l_VoxelMap = new bool[(int)m_DungeonSize.x, (int)m_DungeonSize.y, (int)m_DungeonSize.z];
+            bool[,,] l_VoxelMap = new bool[(int)m_DungeonSize.x, (int)m_DungeonSize.y, (int)m_DungeonSize.z];
             Queue<GameObject> l_partQueue = new Queue<GameObject>();
 
             if (m_StartingRoom == null)
@@ -69,22 +70,23 @@ namespace UnityDungeonGenerator
 
             GameObject l_instantiatedPiece = GameObject.Instantiate(m_StartingRoom, gameObject.transform);
             l_partQueue.Enqueue(l_instantiatedPiece);
-            FillMap(ref m_StartingRoom, ref l_VoxelMap);
+            FillMap(ref l_instantiatedPiece, ref l_VoxelMap);
+            PrintVoxelMap(ref l_VoxelMap);
 
             while (l_partQueue.Count > 0 && m_DungeonParts.Count > 0)
             {
-                Debug.Log("Dungeon Generator: Getting piece to connect");
+                //Debug.Log("Dungeon Generator: Getting piece to connect");
                 GameObject l_currentPiece = l_partQueue.Dequeue();
                 ConnectionPoint[] l_connectionPoints = l_currentPiece.GetComponentsInChildren<ConnectionPoint>();
 
-                Debug.Log("Dungeon Generator: Points on piece detected: " + l_connectionPoints.Length);
+                //Debug.Log("Dungeon Generator: Points on piece detected: " + l_connectionPoints.Length);
 
                 foreach (ConnectionPoint l_currentPoint in l_connectionPoints)
                 {
                     if (l_currentPoint.Connected()) { continue; }
                     if (m_DungeonParts.Count == 0) { break; }
 
-                    Debug.Log("Dungeon Generator: Connecting point at " + l_currentPoint.gameObject.transform.position);
+                    //Debug.Log("Dungeon Generator: Connecting point at " + l_currentPoint.gameObject.transform.position);
 
                     bool l_partFits = false;
                     int l_newPieceIndex = 0;
@@ -95,7 +97,7 @@ namespace UnityDungeonGenerator
                     while (!l_partFits && l_unsuccessfulFits < 5)
                     {
                         // Cycle through parts randomly until one that can be placed is found
-                        Debug.Log("Dungeon Generator: Finding new piece to connect");
+                        //Debug.Log("Dungeon Generator: Finding new piece to connect");
 
                         l_newPieceIndex = UnityEngine.Random.Range(0, m_DungeonParts.Count);
 
@@ -129,6 +131,8 @@ namespace UnityDungeonGenerator
                         }
                     }
 
+                    PrintVoxelMap(ref l_VoxelMap);
+
                     //Increment number of instances and remove from list if the maximum number if instances is reached
                     l_IterationCounts[l_newPieceIndex]++;
                     if (l_IterationCounts[l_newPieceIndex] == m_DungeonParts[l_newPieceIndex].m_MaxIterations)
@@ -138,6 +142,8 @@ namespace UnityDungeonGenerator
                     }
                 }
             }
+
+            PrintVoxelMap(ref l_VoxelMap);
         }
 
         private void FillMap(ref GameObject _dungeonPart, ref bool[,,] _VoxelMap)
@@ -191,22 +197,49 @@ namespace UnityDungeonGenerator
                     l_yCheck ||
                     l_zCheck)
                 {
-                    Debug.Log("Dungeon Generator: Object does not fit. Error coord: " + l_currentCoord);
+                    //Debug.Log("Dungeon Generator: Object does not fit. Error coord: " + l_currentCoord);
                     return false;
                 }
 
-                Debug.Log("Voxel map check at: " + ((int)l_currentCoord.x) + ", " + ((int)l_currentCoord.y) + ", " + ((int)l_currentCoord.z));
+                //Debug.Log("Voxel map check at: " + ((int)l_currentCoord.x) + ", " + ((int)l_currentCoord.y) + ", " + ((int)l_currentCoord.z));
                 if (_VoxelMap[(int)l_currentCoord.x,
                            (int)l_currentCoord.y,
                            (int)l_currentCoord.z])
                 {
-                    Debug.Log("Dungeon Generator: Object overlaps another. Error coord: " + l_currentCoord);
+                    //Debug.Log("Dungeon Generator: Object overlaps another. Error coord: " + l_currentCoord);
                     return false;
                 }
             }
 
-            Debug.Log("Dungeon Generator: Object fits");
+            //Debug.Log("Dungeon Generator: Object fits");
             return true;
+        }
+
+        private void PrintVoxelMap(ref bool[,,] _VoxelMap)
+        {
+            string message = "Dungeon Generator: Voxel Map Output:\n";
+
+            for (int y = 0; y < m_DungeonSize.y; y++)
+            {
+                message += "For y = " + y + ":\n";
+                for (int x = 0; x < m_DungeonSize.x; x++)
+                {
+                    for (int z = 0; z < m_DungeonSize.z; z++)
+                    {
+                        if (_VoxelMap[x, y, z])
+                        {
+                            message += "1  ";
+                        }
+                        else
+                        {
+                            message += "0 ";
+                        }
+                    }
+                    message += "\n";
+                }
+            }
+
+            Debug.Log(message);
         }
     }
 }

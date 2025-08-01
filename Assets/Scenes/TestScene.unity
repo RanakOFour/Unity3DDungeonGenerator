@@ -196,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonSize.y
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonSize.z

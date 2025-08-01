@@ -9,7 +9,7 @@ namespace UnityDungeonGenerator
         [SerializeField]
         private bool m_Connected;
 
-        private void Start()
+        private void Awake()
         {
             m_Connected = false;
         }
