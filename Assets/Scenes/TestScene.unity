@@ -192,15 +192,15 @@ PrefabInstance:
       objectReference: {fileID: 4104687076822010866, guid: 9ff584237873ebc7dbc45c9694675723, type: 3}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonSize.x
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonSize.y
-      value: 20
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonSize.z
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonParts.Array.size
