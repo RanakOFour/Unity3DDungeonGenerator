@@ -53,6 +53,11 @@ namespace UnityDungeonGenerator
         {
             Debug.Log("Dungeon Generator: Starting generation");
 
+            if (gameObject.transform.childCount > 0)
+            {
+                // Destroy all children to start again
+            }
+
             m_VoxelMap = new int[(int)m_DungeonSize.x, (int)m_DungeonSize.y, (int)m_DungeonSize.z];
             Queue<GameObject> l_partQueue = new Queue<GameObject>();
 
@@ -69,7 +74,9 @@ namespace UnityDungeonGenerator
             l_partQueue.Enqueue(l_instantiatedPiece);
             FillMap(ref m_StartingRoom);
 
-            Debug.Log("Dungeon Generator: Getting piece to connect");
+            while (l_partQueue.Count > 0 && m_DungeonParts.Count > 0)
+            {
+                Debug.Log("Dungeon Generator: Getting piece to connect");
             GameObject l_currentPiece = l_partQueue.Dequeue();
             ConnectionPoint[] l_connectionPoints = l_currentPiece.GetComponentsInChildren<ConnectionPoint>();
 
@@ -80,24 +87,32 @@ namespace UnityDungeonGenerator
             {
                 if (l_currentPoint.Connected()) { continue; }
 
+                Debug.Log("Dungeon Generator: Connecting point at " + l_currentPoint.gameObject.transform.position);
+
                 bool l_partFits = false;
                 int l_newPieceIndex = 0;
+                int l_unsuccessfulFits = 0;
 
-                // Cycle through parts randomly until one that can be placed is found
-                Debug.Log("Dungeon Generator: Finding new piece to connect");
+                while (!l_partFits && l_unsuccessfulFits < 5)
+                {
+                    // Cycle through parts randomly until one that can be placed is found
+                    Debug.Log("Dungeon Generator: Finding new piece to connect");
 
-                    l_newPieceIndex = UnityEngine.Random.Range(0, m_DungeonParts.Count - 1);
+                    l_newPieceIndex = UnityEngine.Random.Range(0, m_DungeonParts.Count);
 
                     Debug.Log("Dungeon Generator: Piece index to connect: " + l_newPieceIndex);
                     GameObject l_newPiece = GameObject.Instantiate(m_DungeonParts[l_newPieceIndex].m_Prefab, gameObject.transform);
                     ConnectionPoint l_newPoint = l_newPiece.GetComponentInChildren<ConnectionPoint>();
 
-                    l_newPiece.transform.Rotate(Vector3.up, (l_currentPiece.transform.eulerAngles.y - l_currentPoint.transform.eulerAngles.y) + 180f);
+                    // Using Quaternion.AngleAxis messes with l_newPiece transform, and that isn't good
+                    l_newPiece.transform.Rotate(Vector3.up, (l_currentPoint.transform.eulerAngles.y - l_newPoint.transform.eulerAngles.y) + 180f);
+
+                    // Accounts for difference in overlapping pieces
                     Vector3 l_translate = l_currentPoint.transform.position - l_newPoint.transform.position;
                     l_newPiece.transform.position += l_translate;
-                    // newRoom.transform.rotation = Quaternion.AngleAxis((lastRoomDoor.transform.eulerAngles.y - newRoomDoor.transform.eulerAngles.y) + 180f, Vector3.up);
-                    //     Vector3 translate = lastRoomDoor.transform.position - newRoomDoor.transform.position;
-                    //     newRoom.transform.position += translate;
+
+                    // l_translate = l_currentPiece.transform.position - l_newPiece.transform.position;
+                    // l_newPiece.transform.position += l_translate;
 
                     if (DoesObjectFit(ref l_newPiece))
                     {
@@ -110,8 +125,20 @@ namespace UnityDungeonGenerator
                     else
                     {
                         GameObject.Destroy(l_newPiece);
+                        l_unsuccessfulFits += 1;
                     }
+                }
+
+                //Increment number of instances and remove from list if the maximum number if instances is reached
+                m_DungeonParts[l_newPieceIndex].Increment();
+                if (m_DungeonParts[l_newPieceIndex].Iterations() >= m_DungeonParts[l_newPieceIndex].m_MaxIterations)
+                {
+                    m_DungeonParts.Remove(m_DungeonParts[l_newPieceIndex]);
+                }
             }
+            }
+
+            
 
                 ///////
 
@@ -179,9 +206,9 @@ namespace UnityDungeonGenerator
 
             // Voxel position of prefabs center
             Vector3 l_shapeCenter = new Vector3(
-                                           _dungeonPart.transform.position.x / m_VoxelSize.x,
-                                           _dungeonPart.transform.position.y / m_VoxelSize.y,
-                                           _dungeonPart.transform.position.z / m_VoxelSize.z
+                                           (_dungeonPart.transform.position.x + 0.5f) / m_VoxelSize.x,
+                                           (_dungeonPart.transform.position.y + 0.5f) / m_VoxelSize.y,
+                                           (_dungeonPart.transform.position.z + 0.5f) / m_VoxelSize.z
                                            );
 
             List<Vector3> l_prefabCoords = l_prefab.GetCoordinates(l_shapeCenter);
@@ -200,9 +227,9 @@ namespace UnityDungeonGenerator
         {
             PartPrefab l_prefab = _dungeonPart.GetComponent<PartPrefab>();
             Vector3 l_shapeCenter = new Vector3(
-                                           _dungeonPart.transform.position.x / m_VoxelSize.x,
-                                           _dungeonPart.transform.position.y / m_VoxelSize.y,
-                                           _dungeonPart.transform.position.z / m_VoxelSize.z
+                                           (_dungeonPart.transform.position.x + 0.5f) / m_VoxelSize.x,
+                                           (_dungeonPart.transform.position.y + 0.5f) / m_VoxelSize.y,
+                                           (_dungeonPart.transform.position.z + 0.5f) / m_VoxelSize.z
                                            );
 
             List<Vector3> l_prefabCoords = l_prefab.GetCoordinates(l_shapeCenter);
@@ -216,14 +243,19 @@ namespace UnityDungeonGenerator
 
                 );
 
-                if (Math.Abs((int)l_currentCoord.x) > m_DungeonSize.x ||
-                    Math.Abs((int)l_currentCoord.y) > m_DungeonSize.y ||
-                    Math.Abs((int)l_currentCoord.z) > m_DungeonSize.z)
+                bool l_xCheck = (int)l_currentCoord.x < 0 || (int)l_currentCoord.x > m_DungeonSize.x;
+                bool l_yCheck = (int)l_currentCoord.y < 0 || (int)l_currentCoord.y > m_DungeonSize.y;
+                bool l_zCheck = (int)l_currentCoord.z < 0 || (int)l_currentCoord.z > m_DungeonSize.z;
+
+                if (l_xCheck ||
+                    l_yCheck ||
+                    l_zCheck)
                 {
                     Debug.Log("Dungeon Generator: Object does not fit. Error coord: " + l_currentCoord);
                     return false;
                 }
 
+                Debug.Log("Voxel map check at: " + ((int)l_currentCoord.x) + ", " + ((int)l_currentCoord.y) + ", " + ((int)l_currentCoord.z));
                 if (m_VoxelMap[(int)l_currentCoord.x,
                            (int)l_currentCoord.y,
                            (int)l_currentCoord.z] == 1)

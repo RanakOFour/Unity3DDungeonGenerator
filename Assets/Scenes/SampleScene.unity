@@ -192,19 +192,19 @@ PrefabInstance:
       objectReference: {fileID: 4104687076822010866, guid: 9ff584237873ebc7dbc45c9694675723, type: 3}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonSize.x
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonSize.y
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonSize.z
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonParts.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonParts.Array.data[0].m_Prefab
@@ -213,13 +213,21 @@ PrefabInstance:
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonParts.Array.data[1].m_Prefab
       value: 
-      objectReference: {fileID: 6813203716771385067, guid: 61e400efac67e98359364f8d11f56241, type: 3}
+      objectReference: {fileID: 1273981779389093022, guid: acd32a4b5a193f7fa8760a7145bb4c7a, type: 3}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_DungeonParts.Array.data[2].m_Prefab
+      value: 
+      objectReference: {fileID: 5085412045252635898, guid: 7576b0fa8d6cef11984a523197b57bd5, type: 3}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonParts.Array.data[0].m_MaxIterations
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
       propertyPath: m_DungeonParts.Array.data[1].m_MaxIterations
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090384270949487320, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
+      propertyPath: m_DungeonParts.Array.data[2].m_MaxIterations
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7116413036192293923, guid: fa088cf4b126a52519e9eeca4ace9079, type: 3}
