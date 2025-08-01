@@ -88,6 +88,8 @@ namespace UnityDungeonGenerator
 
                     bool l_partFits = false;
                     int l_newPieceIndex = 0;
+
+                    // Prevent deadlocking
                     int l_unsuccessfulFits = 0;
 
                     while (!l_partFits && l_unsuccessfulFits < 5)
