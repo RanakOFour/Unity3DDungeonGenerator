@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="FGTOHPj3YCh0T4GT6jC4" name="Page-1">
-        <mxGraphModel dx="1216" dy="797" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1216" dy="570" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -322,15 +322,6 @@
                 <mxCell id="185" value="Add piece to queue" style="rounded=0;whiteSpace=wrap;html=1;" parent="107" vertex="1">
                     <mxGeometry x="2107" y="57" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="142" value="CheckForOverlaps" style="swimlane;whiteSpace=wrap;html=1;" parent="51" vertex="1">
-                    <mxGeometry x="6" y="897" width="594" height="363" as="geometry"/>
-                </mxCell>
-                <mxCell id="172" value="More of a protocol than a subroutine" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="142" vertex="1">
-                    <mxGeometry x="6" y="24" width="211" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="173" value="Check location in voxelMap for piece" style="rounded=0;whiteSpace=wrap;html=1;" parent="142" vertex="1">
-                    <mxGeometry x="2" y="67" width="120" height="60" as="geometry"/>
-                </mxCell>
                 <mxCell id="188" value="PartPrefab.GetSpace(Vec3 _center)" style="swimlane;whiteSpace=wrap;html=1;" parent="51" vertex="1">
                     <mxGeometry x="1107" y="912" width="1212" height="378" as="geometry"/>
                 </mxCell>
@@ -394,17 +385,67 @@
                 <mxCell id="205" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;1. _center - (m_Size / 2)&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;2. _center - Math.Round(m_Size * 0.5)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;3. _center - Math.Trunc(m_Size * 0.5)&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="188" vertex="1">
                     <mxGeometry x="673" y="147" width="268" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="206" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="209" value="GetCoordinates(Vec3 _center)" style="swimlane;whiteSpace=wrap;html=1;" parent="51" vertex="1">
+                    <mxGeometry x="30" y="917" width="890" height="629" as="geometry"/>
+                </mxCell>
+                <mxCell id="234" style="edgeStyle=none;html=1;" edge="1" parent="209" source="228" target="233">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="228" value="START" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" parent="209" vertex="1">
+                    <mxGeometry x="10" y="46.5" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="229" value="END" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" parent="209" vertex="1">
+                    <mxGeometry x="24" y="328" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="230" value="" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;" parent="209" vertex="1">
+                    <mxGeometry x="697" y="49" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="231" value="Start" style="endArrow=classic;html=1;" parent="209" edge="1">
+                    <mxGeometry x="-1" y="8" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="645" y="160" as="sourcePoint"/>
+                        <mxPoint x="695" y="110" as="targetPoint"/>
+                        <mxPoint y="11" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="232" value="End" style="endArrow=classic;html=1;" parent="209" edge="1">
+                    <mxGeometry x="-1" y="12" width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="867" y="44" as="sourcePoint"/>
+                        <mxPoint x="820" y="69" as="targetPoint"/>
+                        <mxPoint x="6" y="-13" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="236" style="edgeStyle=none;html=1;" edge="1" parent="209" source="233" target="235">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="233" value="bounds[2] = {&lt;div&gt;_center - (m_Size / 2),&lt;/div&gt;&lt;div&gt;_center + (m_Size / 2)&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="209" vertex="1">
+                    <mxGeometry x="144" y="46.5" width="134" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="238" style="edgeStyle=none;html=1;" edge="1" parent="209" source="235" target="237">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="235" value="For y = bounds[0].y; y &amp;lt; bounds[1].y" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;" vertex="1" parent="209">
+                    <mxGeometry x="101" y="129" width="224" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="240" style="edgeStyle=none;html=1;" edge="1" parent="209" source="237" target="239">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="237" value="For x = bounds[0].x; x &amp;lt; bounds[1].x" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;" vertex="1" parent="209">
+                    <mxGeometry x="181" y="232" width="224" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="239" value="For z = bounds[0].z; z &amp;lt; bounds[1].z" style="shape=cube;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;darkOpacity=0.05;darkOpacity2=0.1;" vertex="1" parent="209">
+                    <mxGeometry x="255" y="335" width="224" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="206" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="135" y="1280" width="120" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="207" value="3" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1">
+                <mxCell id="207" value="3" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
                     <mxGeometry x="0.0145" y="-11" width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="126" y="1423" as="sourcePoint"/>
                         <mxPoint x="264" y="1423" as="targetPoint"/>
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="208" value="3" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1">
+                <mxCell id="208" value="3" style="endArrow=classic;startArrow=classic;html=1;" parent="1" edge="1">
                     <mxGeometry x="0.0145" y="-11" width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="286" y="1406" as="sourcePoint"/>
                         <mxPoint x="286" y="1274" as="targetPoint"/>

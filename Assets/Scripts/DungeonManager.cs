@@ -102,7 +102,7 @@ namespace UnityDungeonGenerator
 
                         l_newPieceIndex = UnityEngine.Random.Range(0, m_DungeonParts.Count);
 
-                        Debug.Log("Dungeon Generator: Piece index to connect: " + l_newPieceIndex);
+                        Debug.Log("Dungeon Generator: Piece to connect: " + m_DungeonParts[l_newPieceIndex].m_Prefab.name);
                         GameObject l_newPiece = GameObject.Instantiate(m_DungeonParts[l_newPieceIndex].m_Prefab, gameObject.transform);
                         ConnectionPoint l_newPoint = l_newPiece.GetComponentInChildren<ConnectionPoint>();
 
@@ -147,6 +147,46 @@ namespace UnityDungeonGenerator
             PrintVoxelMap(ref l_VoxelMap);
         }
 
+        public void BoundCheck()
+        {
+
+            int i = 0;
+            Vector3 l_center = Vector3.zero;
+
+            while (l_center.magnitude < 100)
+            {
+                // Check each piece for 
+                for (int j = 0; j < m_DungeonParts.Count; j++)
+                {
+                    GameObject l_newPiece = GameObject.Instantiate(m_DungeonParts[j].m_Prefab, gameObject.transform);
+                    DungeonPart l_prefab = l_newPiece.GetComponent<DungeonPart>();
+
+                    l_center -= Vector3.one * 0.5f;
+                    List<Vector3> l_prefabCoords = l_prefab.GetCoordinates(l_center);
+
+                    GameObject.Destroy(l_newPiece);
+                }
+
+
+                i++;
+                if (i % 2 == 0)
+                {
+                    l_center = -l_center;
+                }
+                else
+                {
+                    if (l_center.x > 0)
+                    {
+                        l_center += Vector3.one * 0.5f;
+                    }
+                    else
+                    {
+                        l_center -= Vector3.one * 0.5f;
+                    }
+                }
+            }
+        }
+
         private void FillMap(ref GameObject _dungeonPart, ref bool[,,] _VoxelMap)
         {
             DungeonPart l_prefab = _dungeonPart.GetComponent<DungeonPart>();
@@ -166,7 +206,7 @@ namespace UnityDungeonGenerator
                 _VoxelMap[(int)l_currentCoord.x,
                            (int)l_currentCoord.y,
                            (int)l_currentCoord.z] = true;
-                Debug.Log("Dungeon Generator: Position filled: " + l_currentCoord.x + ", " + l_currentCoord.y + ", " + l_currentCoord.z);
+                //Debug.Log("Dungeon Generator: Position filled: " + l_currentCoord.x + ", " + l_currentCoord.y + ", " + l_currentCoord.z);
             }
         }
 
